@@ -8,12 +8,29 @@
 # ||     ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝ ╚═════╝     ||
 # ||                                                    ||
 # >>====================================================<<
-# Mini v8.8.8
+# Lite v8.8.8
 # 项目: https://github.com/huyanluanyuqaq/daidaihutao
 
 
 # 锚点配置
 x-base-provider: &base-provider {type: http, interval: 86400, health-check: {enable: true, url: "https://www.google.com/generate_204", interval: 300}, filter: "^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))"}
+
+x-url-test:   &url-test { type: url-test, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, tolerance: 50 }
+x-fallback:   &fallback { type: fallback, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT }
+
+x-filter-hk:  &filter-hk    "(?i)港|hk|hongkong|hong kong|九龙|kowloon|中环|central|铜锣湾|causeway.?bay|尖沙咀|tsim sha tsui|香港岛"
+x-filter-tw:  &filter-tw    "(?i)台|tw|taiwan|taipei|高雄|kaohsiung|台中|taichung|台南|tainan|桃园|taoyuan"
+x-filter-jp:  &filter-jp    "(?i)日|jp|japan|tokyo|大阪|osaka|名古屋|nagoya|札幌|sapporo|福冈|fukuoka|冲绳|okinawa"
+x-filter-sg:  &filter-sg    "(?i)新|sg|singapore|滨海湾|marina bay|樟宜|changi"
+x-filter-kr:  &filter-kr    "(?i)韩|kr|korea|seoul|釜山|busan|仁川|incheon|大邱|daegu"
+x-filter-us:  &filter-us    "(?i)美|us|usa|america|united states|纽约|new.?york|洛杉矶|los angeles|旧金山|san.?francisco|芝加哥|chicago|西雅图|seattle|达拉斯|dallas|迈阿密|miami|圣何塞|san.?jose|硅谷|silicon.?valley|凤凰城|phoenix|丹佛|denver|亚特兰大|atlanta|波特兰|portland"
+
+x-oversea:   &oversea   [故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点, DIRECT]
+x-direct:    &direct    [DIRECT, 故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点]
+x-us-first:  &us-first  [美国节点, 故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点]
+x-hk-first:  &hk-first  [香港节点, 故障转移, 节点选择, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点]
+x-sg-first:  &sg-first  [狮城节点, 故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 韩国节点, 美国节点]
+x-jp-first:  &jp-first  [日本节点, 故障转移, 节点选择, 香港节点, 台湾节点, 狮城节点, 韩国节点, 美国节点]
 
 x-rule-set-domain: &rule-set-domain { type: http, behavior: domain, format: mrs, interval: 86400 }
 x-rule-set-ipcidr: &rule-set-ipcidr { type: http, behavior: ipcidr, format: mrs, interval: 86400 }
@@ -63,48 +80,31 @@ profile: {store-selected: true, store-fake-ip: true}
 sniffer:
   enable: true
   sniff:
-    HTTP:   {ports: [80, 8080-8880], override-destination: true}
-    TLS:     {ports: [443, 8443]}
-    QUIC:   {ports: [443, 8443]}
+    HTTP:  {ports: [80, 8080-8880], override-destination: true}
+    TLS:   {ports: [443, 8443]}
+    QUIC:  {ports: [443, 8443]}
   skip-domain: ["Mijia Cloud", "+.push.apple.com"]
 
 # TUN模式
 tun:
-  enable: false
-  stack: mixed
+  enable: true
+  stack: system
   dns-hijack: ["any:53", "tcp://any:53"]
   auto-route: true
   auto-redirect: true
   auto-detect-interface: true
 
-# DNS设置
-dns:
-  enable: true
-  ipv6: false
-  enhanced-mode: fake-ip
-  fake-ip-range: 198.18.0.1/16
-  default-nameserver: [119.29.29.29, 180.184.1.1, 223.5.5.5]
-  nameserver: [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
-  fake-ip-filter: [+.miwifi.com, +.docker.io, +.market.xiaomi.com, +.push.apple.com]
-
-# 代理策略组
-proxy-groups:
-  - { name: Proxy, type: select, include-all: true, empty-fallback: REJECT, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Global.png }
-  - { name: China, type: select, include-all: true, proxies: [DIRECT], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/China.png }
-  - { name: Final, type: select, include-all: true, empty-fallback: REJECT, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Final.png }
-
-# 规则路由
 rules:
-  # 本地/私有
+  # 1. 本地/私有
   - RULE-SET,Private,DIRECT
   - RULE-SET,PrivateIP,DIRECT,no-resolve
-  # 国外流量
+  # 8. 通用国外流量
   - RULE-SET,Proxy,Proxy
   - RULE-SET,ProxyIP,Proxy,no-resolve
-  # 国内流量
+  # 9. 通用国内流量
   - RULE-SET,China,China
   - RULE-SET,ChinaIP,China,no-resolve
-  # 兜底规则
+  # 10. 兜底规则
   - MATCH,Final
 
 # 规则集提供者
