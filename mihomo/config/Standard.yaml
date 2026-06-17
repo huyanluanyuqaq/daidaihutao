@@ -13,10 +13,10 @@
 
 
 # 锚点配置
-x-base-provider: &base-provider {type: http, interval: 86400, health-check: {enable: true, url: "https://www.google.com/generate_204", interval: 300}, filter: "^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))"}
+x-base-provider: &base-provider {type: http, interval: 86400, health-check: {enable: true, url: "https://cp.cloudflare.com/generate_204", interval: 300}, filter: "^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))"}
 
-x-url-test:   &url-test { type: url-test, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, tolerance: 50 }
-x-fallback:   &fallback { type: fallback, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT }
+x-url-test:   &url-test { type: url-test, url: "https://cp.cloudflare.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, tolerance: 50 }
+x-fallback:   &fallback { type: fallback, url: "https://cp.cloudflare.com/generate_204", interval: 300, empty-fallback: REJECT }
 
 x-filter-hk:  &filter-hk    "(?i)港|hk|hongkong|hong kong|九龙|kowloon|中环|central|铜锣湾|causeway.?bay|尖沙咀|tsim sha tsui|香港岛"
 x-filter-tw:  &filter-tw    "(?i)台|tw|taiwan|taipei|高雄|kaohsiung|台中|taichung|台南|tainan|桃园|taoyuan"
@@ -109,9 +109,9 @@ rules:
 
 # 规则集提供者
 rule-providers:
-  Private:    { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Private.mrs }
-  Proxy:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Proxy.mrs }
-  China:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/China.mrs }
-  PrivateIP:  { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ip/PrivateIP.mrs }
-  ProxyIP:    { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ip/ProxyIP.mrs }
-  ChinaIP:    { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ip/ChinaIP.mrs }
+  Private:    { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Private.mrs }
+  Proxy:      { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Proxy.mrs }
+  China:      { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/China.mrs }
+  PrivateIP:  { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ip/PrivateIP.mrs }
+  ProxyIP:    { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ip/ProxyIP.mrs }
+  ChinaIP:    { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ip/ChinaIP.mrs }
