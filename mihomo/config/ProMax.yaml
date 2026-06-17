@@ -1,0 +1,264 @@
+# >>====================================================<<
+# ||                                                    ||
+# ||     ██╗  ██╗██╗   ██╗████████╗ █████╗  ██████╗     ||
+# ||     ██║  ██║██║   ██║╚══██╔══╝██╔══██╗██╔═══██╗    ||
+# ||     ███████║██║   ██║   ██║   ███████║██║   ██║    ||
+# ||     ██╔══██║██║   ██║   ██║   ██╔══██║██║   ██║    ||
+# ||     ██║  ██║╚██████╔╝   ██║   ██║  ██║╚██████╔╝    ||
+# ||     ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝ ╚═════╝     ||
+# ||                                                    ||
+# >>====================================================<<
+# Pro v8.8.8
+# 项目: https://github.com/huyanluanyuqaq/daidaihutao
+
+
+
+# 锚点配置
+x-base-provider: &base-provider {type: http, interval: 86400, health-check: {enable: true, url: 'https://www.google.com/generate_204', interval: 300}, filter: '^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAiL|Panel|Channel|Author))'}
+
+x-url-test:     &url-test     { type: url-test, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, tolerance: 50 }
+x-load-balance: &load-balance { type: load-balance, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, strategy: consistent-hashing }
+x-fallback:     &fallback     { type: fallback, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT }
+
+x-filter-hk:    &filter-hk    "(?i)港|hk|hongkong|hong kong|九龙|kowloon|中环|central|铜锣湾|causeway.?bay|尖沙咀|tsim sha tsui|香港岛"
+x-filter-tw:    &filter-tw    "(?i)台|tw|taiwan|taipei|高雄|kaohsiung|台中|taichung|台南|tainan|桃园|taoyuan"
+x-filter-jp:    &filter-jp    "(?i)日|jp|japan|tokyo|大阪|osaka|名古屋|nagoya|札幌|sapporo|福冈|fukuoka|冲绳|okinawa"
+x-filter-sg:    &filter-sg    "(?i)新|sg|singapore|滨海湾|marina bay|樟宜|changi"
+x-filter-kr:    &filter-kr    "(?i)韩|kr|korea|seoul|釜山|busan|仁川|incheon|大邱|daegu"
+x-filter-us:    &filter-us    "(?i)美|us|usa|america|united states|纽约|new.?york|洛杉矶|los angeles|旧金山|san.?francisco|芝加哥|chicago|西雅图|seattle|达拉斯|dallas|迈阿密|miami|圣何塞|san.?jose|硅谷|silicon.?valley|凤凰城|phoenix|丹佛|denver|亚特兰大|atlanta|波特兰|portland"
+
+x-oversea:      &oversea      [故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点, DIRECT]
+x-direct:       &direct       [DIRECT, 故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点]
+x-us-first:     &us-first     [美国节点, 故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点]
+x-hk-first:     &hk-first     [香港节点, 故障转移, 节点选择, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点]
+x-sg-first:     &sg-first     [狮城节点, 故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 韩国节点, 美国节点]
+x-jp-first:     &jp-first     [日本节点, 故障转移, 节点选择, 香港节点, 台湾节点, 狮城节点, 韩国节点, 美国节点]
+
+x-rule-set-domain: &rule-set-domain { type: http, behavior: domain, format: mrs, interval: 86400 }
+x-rule-set-ipcidr: &rule-set-ipcidr { type: http, behavior: ipcidr, format: mrs, interval: 86400 }
+
+proxy-providers:
+  Primary: {<<: *base-provider, url: 'YOUR_PRIMARY_URL', override: {additional-prefix: '[P] '}}
+  Backup:   {<<: *base-provider, url: 'YOUR_BACKUP_URL',  override: {additional-prefix: '[B] '}}
+  Landing:  {<<: *base-provider, url: 'YOUR_LANDING_URL', override: {additional-prefix: '[L] '}}
+
+# 自定义代理节点
+proxies:
+  # - name: "ss1"
+  #   type: ss
+  #   server: server
+  #   port: 443
+  #   cipher: aes-128-gcm
+  #   password: password
+
+# 基础设置
+mode: rule
+port: 7890
+socks-port: 7891
+redir-port: 7892
+mixed-port: 7893
+tproxy-port: 7895
+ipv6: false
+allow-lan: true
+unified-delay: true
+tcp-concurrent: true
+log-level: silent
+bind-address: '*'
+find-process-mode: 'always'
+keep-alive-interval: 15
+keep-alive-idle: 600
+authentication: [mihomo:hutao]
+skip-auth-prefixes: [127.0.0.1/8, '::1/128']
+experimental: {quic-go-disable-gso: true}
+
+# 控制面板
+external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
+external-ui-name: zashboard
+external-ui: ui
+external-controller: 127.0.0.1:9090
+secret: hutao
+profile: {store-selected: true, store-fake-ip: true}
+
+# 流量嗅探
+sniffer:
+  enable: true
+  sniff:
+    HTTP:  {ports: [80, 8080-8880], override-destination: true}
+    TLS:   {ports: [443, 8443]}
+    QUIC:  {ports: [443, 8443]}
+  skip-domain: ["Mijia Cloud", "+.push.apple.com"]
+
+# TUN模式
+tun:
+  enable: true
+  stack: system
+  dns-hijack: ["any:53", "tcp://any:53"]
+  auto-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+
+# DNS设置
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  default-nameserver: [119.29.29.29, 180.184.1.1, 223.5.5.5]
+  nameserver: [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
+  fake-ip-filter: [+.miwifi.com, +.docker.io, +.market.xiaomi.com, +.push.apple.com]
+
+# 代理策略组
+proxy-groups:
+  # 路由策略
+  - { name: Tracking, type: select, proxies: [REJECT-DROP, REJECT, DIRECT], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Reject.png }
+  - { name: Speedtest, type: select, proxies: *oversea, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Speedtest.png }
+  - { name: Telegram, type: select, proxies: *sg-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Telegram_X.png }
+  - { name: Socialmedia, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Twitter.png }
+  - { name: Ai, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Ai.png }
+  - { name: Develop, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/GitHub.png }
+  - { name: EMBY,    type: select, proxies: *oversea, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Emby.png }
+  - { name: Embydirect, type: select, proxies: [DIRECT, *us-first], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Emby.png }
+  - { name: Streaming, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Streaming.png }
+  - { name: Crypto, type: select, proxies: *jp-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Cryptocurrency_3.png }
+  - { name: Youtube, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/YouTube.png }
+  - { name: Google, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Google_Search.png }
+  - { name: Microsoft, type: select, proxies: *oversea, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Microsoft.png }
+  - { name: Apple, type: select, proxies: *direct, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Apple_1.png }
+  - { name: Proxy, type: select, proxies: *oversea, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Global.png }
+  - { name: China, type: select, proxies: *direct, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/China.png }
+  - { name: Final, type: select, proxies: *oversea, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Final.png }
+  
+  # 自动选择
+  - { name: 故障转移, <<: *fallback, proxies: [美国节点, 日本节点, 狮城节点, 韩国节点, 香港节点, 台湾节点], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/ULB.png }
+
+  # 手动选择
+  - { name: 节点选择, type: select, include-all: true, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Clubhouse.png }
+  
+  # 策略组区域
+  - { name: 香港节点, type: select, include-all: true, filter: *filter-hk, proxies: [香港自动, 香港均衡], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png }
+  - { name: 台湾节点, type: select, include-all: true, filter: *filter-tw, proxies: [台湾自动, 台湾均衡], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Taiwan.png }
+  - { name: 日本节点, type: select, include-all: true, filter: *filter-jp, proxies: [日本自动, 日本均衡], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png }
+  - { name: 狮城节点, type: select, include-all: true, filter: *filter-sg, proxies: [狮城自动, 狮城均衡], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Singapore.png }
+  - { name: 韩国节点, type: select, include-all: true, filter: *filter-kr, proxies: [韩国自动, 韩国均衡], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Korea.png }
+  - { name: 美国节点, type: select, include-all: true, filter: *filter-us, proxies: [美国自动, 美国均衡], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png }
+
+  # 自动测速
+  - { name: 香港自动, <<: *url-test, filter: *filter-hk, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
+  - { name: 台湾自动, <<: *url-test, filter: *filter-tw, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
+  - { name: 日本自动, <<: *url-test, filter: *filter-jp, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
+  - { name: 狮城自动, <<: *url-test, filter: *filter-sg, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
+  - { name: 韩国自动, <<: *url-test, filter: *filter-kr, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
+  - { name: 美国自动, <<: *url-test, filter: *filter-us, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
+
+  # 负载均衡
+  - { name: 香港均衡, <<: *load-balance, filter: *filter-hk, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 台湾均衡, <<: *load-balance, filter: *filter-tw, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 日本均衡, <<: *load-balance, filter: *filter-jp, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 狮城均衡, <<: *load-balance, filter: *filter-sg, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 韩国均衡, <<: *load-balance, filter: *filter-kr, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 美国均衡, <<: *load-balance, filter: *filter-us, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+
+# 规则路由
+rules:
+  # 广告拦截
+  - RULE-SET,Tracking,Tracking
+  - RULE-SET,Advertising,Tracking
+  - RULE-SET,AdvertisingIP,Tracking,no-resolve
+  - RULE-SET,TrackingIP,Tracking,no-resolve
+  - AND,((DST-PORT,443),(NETWORK,UDP),(NOT,((GEOIP,CN,no-resolve)))),Tracking
+  
+  # 本地/私有
+  - RULE-SET,Private,DIRECT
+  - RULE-SET,PrivateIP,DIRECT,no-resolve
+
+  # 网络测试
+  - RULE-SET,Speedtest,Speedtest
+
+  # 即时通讯
+  - RULE-SET,Telegram,Telegram
+  - RULE-SET,TelegramIP,Telegram,no-resolve
+
+  # 社交平台
+  - RULE-SET,Socialmedia,Socialmedia
+  - RULE-SET,SocialmediaIP,Socialmedia,no-resolve
+
+  # 人工智能
+  - RULE-SET,Ai,Ai
+  - RULE-SET,AiIP,Ai,no-resolve
+
+  # 开发服务
+  - RULE-SET,Dev,Develop
+
+  # Youtube
+  - RULE-SET,Youtube,Youtube
+  - RULE-SET,YoutubeIP,Youtube,no-resolve
+
+  # 流媒体
+  - RULE-SET,Streaming,Streaming
+  - RULE-SET,StreamingIP,Streaming,no-resolve
+
+  # Apple 国内服务
+  - RULE-SET,Applecn,China
+
+  # EMBY
+  - RULE-SET,Embydirect,Embydirect
+  - RULE-SET,Emby,EMBY
+
+  # 货币平台
+  - RULE-SET,Crypto,Crypto
+
+  # 谷歌服务
+  - RULE-SET,Google,Google
+  - RULE-SET,GoogleIP,Google,no-resolve
+
+  # 微软服务
+  - RULE-SET,Microsoft,Microsoft
+
+  # 苹果服务
+  - RULE-SET,Apple,Apple
+  - RULE-SET,AppleIP,Apple,no-resolve
+
+  # 国外流量
+  - RULE-SET,Proxy,Proxy
+  - RULE-SET,ProxyIP,Proxy,no-resolve
+
+  # 国内流量
+  - RULE-SET,China,China
+  - RULE-SET,ChinaIP,China,no-resolve
+
+  # 兜底规则
+  - MATCH,Final
+
+# 规则集提供者
+rule-providers:
+  Tracking:       { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Tracking.mrs }
+  Advertising:    { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Advertising.mrs } 
+  Private:        { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Private.mrs }
+  Apple:          { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Apple.mrs }
+  Telegram:       { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Telegram.mrs }
+  Socialmedia:    { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Socialmedia.mrs }
+  Ai:             { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Ai.mrs }
+  Dev:            { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Dev.mrs }
+  Youtube:        { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Youtube.mrs }
+  Emby:           { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Emby.mrs }
+  Embydirect:     { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Embydirect.mrs }
+  Applecn:        { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Applecn.mrs }
+  Streaming:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Streaming.mrs }
+  Proxy:          { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Proxy.mrs }
+  China:          { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/China.mrs }
+  Speedtest:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Speedtest.mrs }
+  Crypto:         { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Crypto.mrs }
+  Google:         { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Google.mrs }
+  Microsoft:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Microsoft.mrs }
+  PrivateIP:      { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/PrivateIP.mrs }
+  TelegramIP:     { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/TelegramIP.mrs }
+  SocialmediaIP:  { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/SocialmediaIP.mrs }
+  AiIP:           { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/AiIP.mrs }
+  StreamingIP:    { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/StreamingIP.mrs }
+  ProxyIP:        { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/ProxyIP.mrs }
+  ChinaIP:        { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/ChinaIP.mrs }
+  GoogleIP:       { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/GoogleIP.mrs }
+  AppleIP:        { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/AppleIP.mrs }
+  AdvertisingIP:  { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/AdvertisingIP.mrs }
+  TrackingIP:     { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/TrackingIP.mrs }
+  YoutubeIP:      { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/YoutubeIP.mrs }
