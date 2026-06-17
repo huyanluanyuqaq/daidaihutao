@@ -113,7 +113,6 @@ proxy-groups:
   - { name: Develop, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/GitHub.png }
   - { name: Streaming, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Streaming.png }
   - { name: Apple, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Apple_1.png }
-  - { name: Youtube, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/YouTube.png }
   - { name: Proxy, type: select, proxies: *oversea, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Global.png }
   - { name: China, type: select, proxies: *direct, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/China.png }
   - { name: Final, type: select, proxies: *oversea, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Final.png }
@@ -134,20 +133,27 @@ proxy-groups:
 
 # 规则路由
 rules:
+# 规则路由
+rules:
   # 1. 本地/私有
   - RULE-SET,Private,DIRECT
   - RULE-SET,PrivateIP,DIRECT,no-resolve
+
   # 2. 高优先级特定服务
   - RULE-SET,TM,Telegram
   - RULE-SET,Telegram,Telegram
   - RULE-SET,TelegramIP,Telegram,no-resolve
+  - RULE-SET,AI,Ai
+  - RULE-SET,AiIP,Ai,no-resolve
+  - RULE-SET,Dev,Develop
+
   # 3. 专属流媒体与社交
-  - RULE-SET,SocialMedia,Socialmedia
-  - RULE-SET,SocialMediaIP,Socialmedia,no-resolve
   - RULE-SET,YouTube,Youtube
   - RULE-SET,YoutubeIP,Youtube,no-resolve
   - RULE-SET,Streaming,Streaming
   - RULE-SET,StreamingIP,Streaming,no-resolve
+  - RULE-SET,SocialMedia,Socialmedia
+  - RULE-SET,SocialMediaIP,Socialmedia,no-resolve
 
   # 4. 大厂特定服务
   - RULE-SET,Apple,Apple

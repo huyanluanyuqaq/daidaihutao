@@ -117,7 +117,7 @@ proxy-groups:
   - { name: Ai, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Ai.png }
   - { name: Develop, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/GitHub.png }
   - { name: EMBY,    type: select, proxies: *oversea, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Emby.png }
-  - { name: Embydirect, type: select, proxies: [DIRECT, *us-first], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Emby.png }
+  - { name: Embydirect, type: select, proxies: *direct, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Emby.png }
   - { name: Streaming, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Streaming.png }
   - { name: Crypto, type: select, proxies: *jp-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Cryptocurrency_3.png }
   - { name: Youtube, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/YouTube.png }
@@ -160,73 +160,59 @@ proxy-groups:
 
 # 规则路由
 rules:
-  # 广告拦截
+# 规则路由
+rules:
+  # 1. 本地/私有
+  - RULE-SET,Private,DIRECT
+  - RULE-SET,PrivateIP,DIRECT,no-resolve
+
+  # 2. 广告拦截
   - RULE-SET,Tracking,Tracking
   - RULE-SET,Advertising,Tracking
   - RULE-SET,AdvertisingIP,Tracking,no-resolve
   - RULE-SET,TrackingIP,Tracking,no-resolve
-  - AND,((DST-PORT,443),(NETWORK,UDP),(NOT,((GEOIP,CN,no-resolve)))),Tracking
-  
-  # 本地/私有
-  - RULE-SET,Private,DIRECT
-  - RULE-SET,PrivateIP,DIRECT,no-resolve
 
-  # 网络测试
-  - RULE-SET,Speedtest,Speedtest
-
-  # 即时通讯
+  # 3. 高优先级特定服务
+  - RULE-SET,Ai,Ai
+  - RULE-SET,AiIP,Ai,no-resolve
   - RULE-SET,Telegram,Telegram
   - RULE-SET,TelegramIP,Telegram,no-resolve
 
-  # 社交平台
+  # 4. 专属流媒体与社交
+  - RULE-SET,Youtube,Youtube
+  - RULE-SET,YoutubeIP,Youtube,no-resolve
+  - RULE-SET,Streaming,Streaming
+  - RULE-SET,StreamingIP,Streaming,no-resolve
+  - RULE-SET,Embydirect,Embydirect
+  - RULE-SET,Emby,EMBY
   - RULE-SET,Socialmedia,Socialmedia
   - RULE-SET,SocialmediaIP,Socialmedia,no-resolve
 
-  # 人工智能
-  - RULE-SET,Ai,Ai
-  - RULE-SET,AiIP,Ai,no-resolve
-
-  # 开发服务
-  - RULE-SET,Dev,Develop
-
-  # Youtube
-  - RULE-SET,Youtube,Youtube
-  - RULE-SET,YoutubeIP,Youtube,no-resolve
-
-  # 流媒体
-  - RULE-SET,Streaming,Streaming
-  - RULE-SET,StreamingIP,Streaming,no-resolve
-
-  # Apple 国内服务
-  - RULE-SET,Applecn,China
-
-  # EMBY
-  - RULE-SET,Embydirect,Embydirect
-  - RULE-SET,Emby,EMBY
-
-  # 货币平台
+  # 5. 特殊垂直领域
   - RULE-SET,Crypto,Crypto
+  - RULE-SET,Dev,Develop
+  - RULE-SET,Speedtest,Speedtest
 
-  # 谷歌服务
+  # 6. 大厂特定服务
   - RULE-SET,Google,Google
   - RULE-SET,GoogleIP,Google,no-resolve
-
-  # 微软服务
-  - RULE-SET,Microsoft,Microsoft
-
-  # 苹果服务
+  - RULE-SET,Applecn,China
   - RULE-SET,Apple,Apple
   - RULE-SET,AppleIP,Apple,no-resolve
+  - RULE-SET,Microsoft,Microsoft
 
-  # 国外流量
+  # 7. QUIC / UDP 443 管控
+  - AND,((DST-PORT,443),(NETWORK,UDP),(NOT,((GEOIP,CN,no-resolve)))),Tracking
+
+  # 8. 通用国外流量
   - RULE-SET,Proxy,Proxy
   - RULE-SET,ProxyIP,Proxy,no-resolve
 
-  # 国内流量
+  # 9. 通用国内流量
   - RULE-SET,China,China
   - RULE-SET,ChinaIP,China,no-resolve
 
-  # 兜底规则
+  # 10. 兜底规则
   - MATCH,Final
 
 # 规则集提供者
