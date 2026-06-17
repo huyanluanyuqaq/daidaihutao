@@ -14,6 +14,8 @@
 ### 阶段一：Claude 规划
 
 ```
+claude/review 先切换到 main 分支拉取远程 main 分支代码：git checkout main + git fetch origin + git pull --ff-only origin main
+切回到 claude/review 分支：git rebase main
 claude/review 创建任务文档 docs/tasks/Pxxx.md
 → git commit -m "[Claude][Pxxx] add task specification"
 → git push origin claude/review
