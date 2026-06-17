@@ -14,7 +14,11 @@
 ### 阶段一：Claude 规划
 
 ```
-claude/review 先同步最新 main（git checkout main + git fetch origin + git pull --ff-only origin main），再 rebase main（git rebase main）
+git checkout main
+git fetch origin
+git pull --ff-only origin main
+git checkout claude/review
+git rebase main
 → 创建任务文档 docs/tasks/Pxxx.md
 → git commit -m "[Claude][Pxxx] add task specification"
 → git push origin claude/review
@@ -29,39 +33,54 @@ claude/review 先同步最新 main（git checkout main + git fetch origin + git 
 #### Codex
 
 ```
-codex/automate 先同步最新 main（git checkout main + git fetch origin + git pull --ff-only origin main），再切回 codex/automate 并 rebase main（git checkout codex/automate + git rebase main），然后读取 docs/tasks/Pxxx.md
+git checkout main
+git fetch origin
+git pull --ff-only origin main
+git checkout codex/automate
+git rebase main
+→ 读取 docs/tasks/Pxxx.md
 → 严格按任务文档执行修改（无需中途停顿确认）
-→ 自动执行：git commit -m "[Codex][Pxxx] implement changes"
-→ 自动执行：git push origin codex/automate
-→ 自动执行：git checkout main
-→ 自动执行：git merge --ff-only codex/automate
-→ 自动执行：git push origin main
+→ git commit -m "[Codex][Pxxx] implement changes"
+→ git push origin codex/automate
+→ git checkout main
+→ git merge --ff-only codex/automate
+→ git push origin main
 → 自动进入静默状态，仅提示用户："阶段二已自动执行完毕，已推送至 main，等待 Claude 进行阶段三 Review。"
 ```
 
 #### MiMoCode
 
 ```
-mimo/work 先同步最新 main（git checkout main + git fetch origin + git pull --ff-only origin main），再切回 mimo/work 并 rebase main（git checkout mimo/work + git rebase main），然后读取 docs/tasks/Pxxx.md
+git checkout main
+git fetch origin
+git pull --ff-only origin main
+git checkout mimo/work
+git rebase main
+→ 读取 docs/tasks/Pxxx.md
 → 严格按任务文档执行修改（无需中途停顿确认）
-→ 自动执行：git commit -m "[MiMoCode][Pxxx] implement changes"
-→ 自动执行：git push origin mimo/work
-→ 自动执行：git checkout main
-→ 自动执行：git merge --ff-only mimo/work
-→ 自动执行：git push origin main
+→ git commit -m "[MiMoCode][Pxxx] implement changes"
+→ git push origin mimo/work
+→ git checkout main
+→ git merge --ff-only mimo/work
+→ git push origin main
 → 自动进入静默状态，仅提示用户："阶段二已自动执行完毕，已推送至 main，等待 Claude 进行阶段三 Review。"
 ```
 
 #### DeveCo
 
 ```
-deveco/execute 先同步最新 main（git checkout main + git fetch origin + git pull --ff-only origin main），再切回 deveco/execute 并 rebase main（git checkout deveco/execute + git rebase main），然后读取 docs/tasks/Pxxx.md
+git checkout main
+git fetch origin
+git pull --ff-only origin main
+git checkout deveco/execute
+git rebase main
+→ 读取 docs/tasks/Pxxx.md
 → 严格按任务文档执行修改（无需中途停顿确认）
-→ 自动执行：git commit -m "[DeveCo][Pxxx] implement changes"
-→ 自动执行：git push origin deveco/execute
-→ 自动执行：git checkout main
-→ 自动执行：git merge --ff-only deveco/execute
-→ 自动执行：git push origin main
+→ git commit -m "[DeveCo][Pxxx] implement changes"
+→ git push origin deveco/execute
+→ git checkout main
+→ git merge --ff-only deveco/execute
+→ git push origin main
 → 自动进入静默状态，仅提示用户："阶段二已自动执行完毕，已推送至 main，等待 Claude 进行阶段三 Review。"
 ```
 
@@ -70,7 +89,11 @@ deveco/execute 先同步最新 main（git checkout main + git fetch origin + git
 #### 创建并合并 Review
 
 ```
-claude/review 先同步最新 main（git checkout main + git fetch origin + git pull --ff-only origin main），再 rebase main（git rebase main），然后创建 docs/reviews/Pxxx-review.md
+git checkout main
+git fetch origin
+git pull --ff-only origin main
+git checkout claude/review
+git rebase main
 → 创建 docs/reviews/Pxxx-review.md
 → git commit -m "[Claude][Pxxx] review pass" 或 "review fail"
 → git push origin claude/review
@@ -82,7 +105,11 @@ claude/review 先同步最新 main（git checkout main + git fetch origin + git 
 #### PASS → 归档
 
 ```
-claude/review 先同步最新 main（git checkout main + git fetch origin + git pull --ff-only origin main），再 rebase main（git rebase main）
+git checkout main
+git fetch origin
+git pull --ff-only origin main
+git checkout claude/review
+git rebase main
 → git mv docs/tasks/Pxxx.md docs/archive/
 → git mv docs/reviews/Pxxx-review.md docs/archive/
 → git commit -m "[Claude][Pxxx] archive completed task"
@@ -98,7 +125,11 @@ claude/review 先同步最新 main（git checkout main + git fetch origin + git 
 FAIL 包含：发现的问题、影响范围、修复建议、指定修复 Agent（Codex / MiMoCode / DeveCo）
 
 指定 Agent 拉取最新 main、修复、合并回 main：
-→ 对应工作分支先同步最新 main（git checkout main + git fetch origin + git pull --ff-only origin main），再切回工作分支并 rebase main（git checkout <工作分支> + git rebase main）
+git checkout main
+git fetch origin
+git pull --ff-only origin main
+git checkout <工作分支>
+git rebase main
 → 根据 Review 修复
 → git add .
 → git commit -m "[Agent][Pxxx] fix review issues"
