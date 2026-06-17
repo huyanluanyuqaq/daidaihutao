@@ -133,8 +133,6 @@ proxy-groups:
 
 # 规则路由
 rules:
-# 规则路由
-rules:
   # 1. 本地/私有
   - RULE-SET,Private,DIRECT
   - RULE-SET,PrivateIP,DIRECT,no-resolve
