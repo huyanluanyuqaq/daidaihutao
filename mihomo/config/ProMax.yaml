@@ -113,7 +113,7 @@ proxy-groups:
   # 2. 广告拦截
   - { name: Tracking, type: select, proxies: [REJECT-DROP, REJECT, DIRECT], icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Reject.png }
   # 3. 高优先级特定服务
-  - { name: Telegram, type: select, proxies: *hk-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram_X.png }
+  - { name: Telegram, type: select, proxies: *sg-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram_X.png }
   - { name: Ai, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/AI.png }
   # 4. 专属流媒体与社交
   - { name: Youtube, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png }
