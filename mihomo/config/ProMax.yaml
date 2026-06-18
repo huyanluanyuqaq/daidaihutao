@@ -177,6 +177,7 @@ rules:
   - RULE-SET,Advertising,Tracking
   - RULE-SET,AdvertisingIP,Tracking,no-resolve
   - RULE-SET,TrackingIP,Tracking,no-resolve
+  - AND,((DST-PORT,443),(NETWORK,UDP),(NOT,((RULE-SET,ChinaIP,no-resolve)))),Tracking
 
   # 3. 高优先级特定服务
   - RULE-SET,Ai,Ai
@@ -206,9 +207,6 @@ rules:
   - RULE-SET,Apple,Apple
   - RULE-SET,AppleIP,Apple,no-resolve
   - RULE-SET,Microsoft,Microsoft
-
-  # 7. QUIC / UDP 443 管控
-  - AND,((DST-PORT,443),(NETWORK,UDP),(NOT,((GEOIP,CN,no-resolve)))),Tracking
 
   # 8. 通用国外流量
   - RULE-SET,Proxy,Proxy
