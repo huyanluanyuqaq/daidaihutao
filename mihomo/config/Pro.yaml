@@ -146,8 +146,6 @@ rules:
   - RULE-SET,Dev,Develop
 
   # 3. 专属流媒体与社交
-  - RULE-SET,YouTube,Youtube
-  - RULE-SET,YoutubeIP,Youtube,no-resolve
   - RULE-SET,Streaming,Streaming
   - RULE-SET,StreamingIP,Streaming,no-resolve
   - RULE-SET,SocialMedia,Socialmedia
@@ -174,21 +172,15 @@ rule-providers:
   Telegram:    { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Telegram.mrs, proxy: China }
   AI:        { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/AI.mrs, proxy: China }
   Dev:        { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Dev.mrs, proxy: China }
-  YouTube:    { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/YouTube.mrs, proxy: China }
   Streaming:    { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Streaming.mrs, proxy: China }
-  Netflix:    { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Netflix.mrs, proxy: China }
-  Spotify:    { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Spotify.mrs, proxy: China }
-  Disney:    { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Disney.mrs, proxy: China }
   SocialMedia:  { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/SocialMedia.mrs, proxy: China }
   Apple:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Apple.mrs, proxy: China }
   Proxy:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Proxy.mrs, proxy: China }
   China:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/China.mrs, proxy: China }
-  PrivateIP:    { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ip/PrivateIP.mrs, proxy: China }
-  TelegramIP:  { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ip/TelegramIP.mrs, proxy: China }
-  SocialMediaIP:  { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ip/SocialMediaIP.mrs, proxy: China }
-  AiIP:      { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ip/AiIP.mrs, proxy: China }
-  NetflixIP:    { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ip/NetflixIP.mrs, proxy: China }
-  StreamingIP:  { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ip/StreamingIP.mrs, proxy: China }
-  YoutubeIP:    { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ip/YoutubeIP.mrs, proxy: China }
-  ProxyIP:    { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ip/ProxyIP.mrs, proxy: China }
-  ChinaIP:    { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ip/ChinaIP.mrs, proxy: China }
+  PrivateIP:    { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/PrivateIP.mrs, proxy: China }
+  TelegramIP:  { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/TelegramIP.mrs, proxy: China }
+  SocialMediaIP:  { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/SocialMediaIP.mrs, proxy: China }
+  AiIP:      { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/AiIP.mrs, proxy: China }
+  StreamingIP:  { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/StreamingIP.mrs, proxy: China }
+  ProxyIP:    { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/ProxyIP.mrs, proxy: China }
+  ChinaIP:    { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/ChinaIP.mrs, proxy: China }
