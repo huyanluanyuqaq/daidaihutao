@@ -10,7 +10,8 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 
-# ===== IDE / 编辑器 =====
+# ===== 编辑器 / AI 工具 =====
+.claude/
 .idea/
 .vscode/
 *.swp
