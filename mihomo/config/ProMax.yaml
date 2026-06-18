@@ -14,11 +14,11 @@
 
 
 # 锚点配置
-x-base-provider: &base-provider {type: http, interval: 86400, health-check: {enable: true, url: 'https://cp.cloudflare.com/generate_204', interval: 300}, filter: '^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAiL|Panel|Channel|Author))'}
+x-base-provider: &base-provider {type: http, interval: 86400, health-check: {enable: true, url: 'https://www.gstatic.com/generate_204', interval: 300}, filter: '^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAiL|Panel|Channel|Author))'}
 
-x-url-test:     &url-test     { type: url-test, url: "https://cp.cloudflare.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, tolerance: 50 }
-x-load-balance: &load-balance { type: load-balance, url: "https://cp.cloudflare.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, strategy: consistent-hashing }
-x-fallback:     &fallback     { type: fallback, url: "https://cp.cloudflare.com/generate_204", interval: 300, empty-fallback: REJECT }
+x-url-test:     &url-test     { type: url-test, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, tolerance: 50 }
+x-load-balance: &load-balance { type: load-balance, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, strategy: consistent-hashing }
+x-fallback:     &fallback     { type: fallback, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT }
 
 x-filter-hk:    &filter-hk    "(?i)港|hk|hongkong|hong kong|九龙|kowloon|中环|central|铜锣湾|causeway.?bay|尖沙咀|tsim sha tsui|香港岛"
 x-filter-tw:    &filter-tw    "(?i)台|tw|taiwan|taipei|高雄|kaohsiung|台中|taichung|台南|tainan|桃园|taoyuan"
@@ -38,9 +38,9 @@ x-rule-set-domain: &rule-set-domain { type: http, behavior: domain, format: mrs,
 x-rule-set-ipcidr: &rule-set-ipcidr { type: http, behavior: ipcidr, format: mrs, interval: 86400 }
 
 proxy-providers:
-  Primary: {<<: *base-provider, url: 'YOUR_PRIMARY_URL', override: {additional-prefix: '[P] '}}
-  Backup:   {<<: *base-provider, url: 'YOUR_BACKUP_URL',  override: {additional-prefix: '[B] '}}
-  Landing:  {<<: *base-provider, url: 'YOUR_LANDING_URL', override: {additional-prefix: '[L] '}}
+  Primary: {<<: *base-provider, url: 'YOUR_PRIMARY_URL', override: {additional-prefix: '[P] '}, proxy: China}
+  Backup:   {<<: *base-provider, url: 'YOUR_BACKUP_URL',  override: {additional-prefix: '[B] '}, proxy: China}
+  Landing:  {<<: *base-provider, url: 'YOUR_LANDING_URL', override: {additional-prefix: '[L] '}, proxy: China}
 
 # 自定义代理节点
 proxies:
@@ -110,53 +110,53 @@ dns:
 # 代理策略组
 proxy-groups:
   # 路由策略
-  - { name: Tracking, type: select, proxies: [REJECT-DROP, REJECT, DIRECT], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Reject.png }
-  - { name: Speedtest, type: select, proxies: *oversea, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Speedtest.png }
-  - { name: Telegram, type: select, proxies: *sg-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Telegram_X.png }
-  - { name: Socialmedia, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Twitter.png }
-  - { name: Ai, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Ai.png }
-  - { name: Develop, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/GitHub.png }
-  - { name: EMBY,    type: select, proxies: *oversea, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Emby.png }
-  - { name: Embydirect, type: select, proxies: *direct, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Emby.png }
-  - { name: Streaming, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Streaming.png }
-  - { name: Crypto, type: select, proxies: *jp-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Cryptocurrency_3.png }
-  - { name: Youtube, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/YouTube.png }
-  - { name: Google, type: select, proxies: *us-first, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Google_Search.png }
-  - { name: Microsoft, type: select, proxies: *oversea, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Microsoft.png }
-  - { name: Apple, type: select, proxies: *direct, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Apple_1.png }
-  - { name: Proxy, type: select, proxies: *oversea, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Global.png }
-  - { name: China, type: select, proxies: *direct, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/China.png }
-  - { name: Final, type: select, proxies: *oversea, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Final.png }
+  - { name: Tracking, type: select, proxies: [REJECT-DROP, REJECT, DIRECT], icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Reject.png }
+  - { name: Speedtest, type: select, proxies: *oversea, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Speedtest.png }
+  - { name: Telegram, type: select, proxies: *sg-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram_X.png }
+  - { name: Socialmedia, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitter.png }
+  - { name: Ai, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Ai.png }
+  - { name: Develop, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png }
+  - { name: EMBY,    type: select, proxies: *oversea, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Emby.png }
+  - { name: Embydirect, type: select, proxies: *direct, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Emby.png }
+  - { name: Streaming, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Streaming.png }
+  - { name: Crypto, type: select, proxies: *jp-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Cryptocurrency_3.png }
+  - { name: Youtube, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png }
+  - { name: Google, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png }
+  - { name: Microsoft, type: select, proxies: *oversea, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Microsoft.png }
+  - { name: Apple, type: select, proxies: *direct, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Apple_1.png }
+  - { name: Proxy, type: select, proxies: *oversea, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png }
+  - { name: China, type: select, proxies: *direct, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/China.png }
+  - { name: Final, type: select, proxies: *oversea, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png }
   
   # 自动选择
-  - { name: 故障转移, <<: *fallback, proxies: [美国节点, 日本节点, 狮城节点, 韩国节点, 香港节点, 台湾节点], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/ULB.png }
+  - { name: 故障转移, <<: *fallback, proxies: [美国节点, 日本节点, 狮城节点, 韩国节点, 香港节点, 台湾节点], icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ULB.png }
 
   # 手动选择
-  - { name: 节点选择, type: select, include-all: true, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Clubhouse.png }
+  - { name: 节点选择, type: select, include-all: true, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Clubhouse.png }
   
   # 策略组区域
-  - { name: 香港节点, type: select, include-all: true, filter: *filter-hk, proxies: [香港自动, 香港均衡], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png }
-  - { name: 台湾节点, type: select, include-all: true, filter: *filter-tw, proxies: [台湾自动, 台湾均衡], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Taiwan.png }
-  - { name: 日本节点, type: select, include-all: true, filter: *filter-jp, proxies: [日本自动, 日本均衡], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png }
-  - { name: 狮城节点, type: select, include-all: true, filter: *filter-sg, proxies: [狮城自动, 狮城均衡], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Singapore.png }
-  - { name: 韩国节点, type: select, include-all: true, filter: *filter-kr, proxies: [韩国自动, 韩国均衡], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Korea.png }
-  - { name: 美国节点, type: select, include-all: true, filter: *filter-us, proxies: [美国自动, 美国均衡], icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png }
+  - { name: 香港节点, type: select, include-all: true, filter: *filter-hk, proxies: [香港自动, 香港均衡], icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hong_Kong.png }
+  - { name: 台湾节点, type: select, include-all: true, filter: *filter-tw, proxies: [台湾自动, 台湾均衡], icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Taiwan.png }
+  - { name: 日本节点, type: select, include-all: true, filter: *filter-jp, proxies: [日本自动, 日本均衡], icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Japan.png }
+  - { name: 狮城节点, type: select, include-all: true, filter: *filter-sg, proxies: [狮城自动, 狮城均衡], icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png }
+  - { name: 韩国节点, type: select, include-all: true, filter: *filter-kr, proxies: [韩国自动, 韩国均衡], icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Korea.png }
+  - { name: 美国节点, type: select, include-all: true, filter: *filter-us, proxies: [美国自动, 美国均衡], icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png }
 
   # 自动测速
-  - { name: 香港自动, <<: *url-test, filter: *filter-hk, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
-  - { name: 台湾自动, <<: *url-test, filter: *filter-tw, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
-  - { name: 日本自动, <<: *url-test, filter: *filter-jp, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
-  - { name: 狮城自动, <<: *url-test, filter: *filter-sg, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
-  - { name: 韩国自动, <<: *url-test, filter: *filter-kr, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
-  - { name: 美国自动, <<: *url-test, filter: *filter-us, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Auto.png }
+  - { name: 香港自动, <<: *url-test, filter: *filter-hk, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png }
+  - { name: 台湾自动, <<: *url-test, filter: *filter-tw, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png }
+  - { name: 日本自动, <<: *url-test, filter: *filter-jp, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png }
+  - { name: 狮城自动, <<: *url-test, filter: *filter-sg, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png }
+  - { name: 韩国自动, <<: *url-test, filter: *filter-kr, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png }
+  - { name: 美国自动, <<: *url-test, filter: *filter-us, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png }
 
   # 负载均衡
-  - { name: 香港均衡, <<: *load-balance, filter: *filter-hk, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
-  - { name: 台湾均衡, <<: *load-balance, filter: *filter-tw, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
-  - { name: 日本均衡, <<: *load-balance, filter: *filter-jp, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
-  - { name: 狮城均衡, <<: *load-balance, filter: *filter-sg, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
-  - { name: 韩国均衡, <<: *load-balance, filter: *filter-kr, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
-  - { name: 美国均衡, <<: *load-balance, filter: *filter-us, icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Round_Robin_1.png }
+  - { name: 香港均衡, <<: *load-balance, filter: *filter-hk, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Round_Robin_1.png }
+  - { name: 台湾均衡, <<: *load-balance, filter: *filter-tw, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Round_Robin_1.png }
+  - { name: 日本均衡, <<: *load-balance, filter: *filter-jp, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Round_Robin_1.png }
+  - { name: 狮城均衡, <<: *load-balance, filter: *filter-sg, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Round_Robin_1.png }
+  - { name: 韩国均衡, <<: *load-balance, filter: *filter-kr, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Round_Robin_1.png }
+  - { name: 美国均衡, <<: *load-balance, filter: *filter-us, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Round_Robin_1.png }
 
 # 规则路由
 rules:
@@ -215,34 +215,34 @@ rules:
 
 # 规则集提供者
 rule-providers:
-  Tracking:       { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Tracking.mrs }
-  Advertising:    { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Advertising.mrs } 
-  Private:        { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Private.mrs }
-  Apple:          { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Apple.mrs }
-  Telegram:       { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Telegram.mrs }
-  Socialmedia:    { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Socialmedia.mrs }
-  Ai:             { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Ai.mrs }
-  Dev:            { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Dev.mrs }
-  Youtube:        { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Youtube.mrs }
-  Emby:           { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Emby.mrs }
-  Embydirect:     { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Embydirect.mrs }
-  Applecn:        { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Applecn.mrs }
-  Streaming:      { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Streaming.mrs }
-  Proxy:          { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Proxy.mrs }
-  China:          { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/China.mrs }
-  Speedtest:      { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Speedtest.mrs }
-  Crypto:         { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Crypto.mrs }
-  Google:         { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Google.mrs }
-  Microsoft:      { <<: *rule-set-domain, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/domain/Microsoft.mrs }
-  PrivateIP:      { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ipcidr/PrivateIP.mrs }
-  TelegramIP:     { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ipcidr/TelegramIP.mrs }
-  SocialmediaIP:  { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ipcidr/SocialmediaIP.mrs }
-  AiIP:           { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ipcidr/AiIP.mrs }
-  StreamingIP:    { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ipcidr/StreamingIP.mrs }
-  ProxyIP:        { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ipcidr/ProxyIP.mrs }
-  ChinaIP:        { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ipcidr/ChinaIP.mrs }
-  GoogleIP:       { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ipcidr/GoogleIP.mrs }
-  AppleIP:        { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ipcidr/AppleIP.mrs }
-  AdvertisingIP:  { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ipcidr/AdvertisingIP.mrs }
-  TrackingIP:     { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ipcidr/TrackingIP.mrs }
-  YoutubeIP:      { <<: *rule-set-ipcidr, url: https://cdn.jsdelivr.net/gh/huyanluanyuqaq/hutaorules@rules/mihomo/ipcidr/YoutubeIP.mrs }
+  Tracking:       { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Tracking.mrs, proxy: China }
+  Advertising:    { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Advertising.mrs } 
+  Private:        { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Private.mrs, proxy: China }
+  Apple:          { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Apple.mrs, proxy: China }
+  Telegram:       { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Telegram.mrs, proxy: China }
+  Socialmedia:    { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Socialmedia.mrs, proxy: China }
+  Ai:             { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Ai.mrs, proxy: China }
+  Dev:            { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Dev.mrs, proxy: China }
+  Youtube:        { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Youtube.mrs, proxy: China }
+  Emby:           { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Emby.mrs, proxy: China }
+  Embydirect:     { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Embydirect.mrs, proxy: China }
+  Applecn:        { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Applecn.mrs, proxy: China }
+  Streaming:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Streaming.mrs, proxy: China }
+  Proxy:          { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Proxy.mrs, proxy: China }
+  China:          { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/China.mrs, proxy: China }
+  Speedtest:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Speedtest.mrs, proxy: China }
+  Crypto:         { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Crypto.mrs, proxy: China }
+  Google:         { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Google.mrs, proxy: China }
+  Microsoft:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Microsoft.mrs, proxy: China }
+  PrivateIP:      { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/PrivateIP.mrs, proxy: China }
+  TelegramIP:     { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/TelegramIP.mrs, proxy: China }
+  SocialmediaIP:  { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/SocialmediaIP.mrs, proxy: China }
+  AiIP:           { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/AiIP.mrs, proxy: China }
+  StreamingIP:    { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/StreamingIP.mrs, proxy: China }
+  ProxyIP:        { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/ProxyIP.mrs, proxy: China }
+  ChinaIP:        { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/ChinaIP.mrs, proxy: China }
+  GoogleIP:       { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/GoogleIP.mrs, proxy: China }
+  AppleIP:        { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/AppleIP.mrs, proxy: China }
+  AdvertisingIP:  { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/AdvertisingIP.mrs, proxy: China }
+  TrackingIP:     { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/TrackingIP.mrs, proxy: China }
+  YoutubeIP:      { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/YoutubeIP.mrs, proxy: China }
