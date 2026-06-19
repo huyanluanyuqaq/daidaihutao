@@ -16,6 +16,7 @@ Desktop.ini
 .vscode/
 *.swp
 *.swo
+docs/superpowers/
 
 # ===== 脚本运行时产生 =====
 *.log
