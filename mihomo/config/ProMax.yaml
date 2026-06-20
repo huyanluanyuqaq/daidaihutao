@@ -137,10 +137,12 @@ proxy-groups:
   - { name: Final, type: select, proxies: *oversea, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png }
   
   # 自动选择
-  - { name: 故障转移, <<: *fallback, proxies: [美国节点, 日本节点, 狮城节点, 韩国节点, 香港节点, 台湾节点], icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ULB.png }
+  - { name: 故障转移, <<: *fallback, proxies: [美国节点, 日本节点, 狮城节点, 韩国节点, 香港节点, 台湾节点, Globalauto], icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ULB.png }
+
+  - { name: Globalauto, type: url-test, include-all: true, exclude-filter: "(?i)DIRECT|REJECT|COMPATIBLE|自动|均衡|节点|选择|故障转移|Globalauto", url: "https://www.gstatic.com/generate_204", interval: 300, tolerance: 50, empty-fallback: REJECT, hidden: true, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Heart.png }
 
   # 手动选择
-  - { name: 节点选择, type: select, include-all: true, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Clubhouse.png }
+  - { name: 节点选择, type: select, include-all: true, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Heart.png }
   
   # 策略组区域
   - { name: 香港节点, type: select, include-all: true, filter: *filter-hk, proxies: [香港自动, 香港均衡], icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hong_Kong.png }
