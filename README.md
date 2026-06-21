@@ -45,8 +45,8 @@
 
 | 版本 | 定位 | 策略组 | 本地导入 | RAW 直链 |
 |:-----|:------|:------:|:---------|:----------|
-| **ProMax** 🦾 | 全能版 — 完整策略集，支持测速与负载均衡 | 17 | [ProMax.yaml](mihomo/config/ProMax.yaml) | [RAW](https://raw.githubusercontent.com/huyanluanyuqaq/daidaihutao/main/mihomo/config/ProMax.yaml) |
-| **Pro** 💪 | 轻量版 — 常用策略集，采用自动测速 | 9 | [Pro.yaml](mihomo/config/Pro.yaml) | [RAW](https://raw.githubusercontent.com/huyanluanyuqaq/daidaihutao/main/mihomo/config/Pro.yaml) |
+| **ProMax** 🦾 | 全能版 — 完整策略集，支持测速与负载均衡 | 28 | [ProMax.yaml](mihomo/config/ProMax.yaml) | [RAW](https://raw.githubusercontent.com/huyanluanyuqaq/daidaihutao/main/mihomo/config/ProMax.yaml) |
+| **Pro** 💪 | 轻量版 — 常用策略集，含故障转移 | 18 | [Pro.yaml](mihomo/config/Pro.yaml) | [RAW](https://raw.githubusercontent.com/huyanluanyuqaq/daidaihutao/main/mihomo/config/Pro.yaml) |
 | **Standard** 🎯 | 极简版 — 基础分流，仅保留手动节点选择 | 3 | [Standard.yaml](mihomo/config/Standard.yaml) | [RAW](https://raw.githubusercontent.com/huyanluanyuqaq/daidaihutao/main/mihomo/config/Standard.yaml) |
 
 > 💡 **提示**：RAW 直链可用于 Mihomo Party、Clash Verge Rev 等客户端的远程配置功能，配置随仓库自动同步更新。
