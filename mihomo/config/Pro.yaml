@@ -97,18 +97,22 @@ tun:
 # DNS设置
 dns:
   enable: true
+  listen: 7874
   ipv6: false
   enhanced-mode: fake-ip
+  fake-ip-filter-mode: rule
   fake-ip-range: 198.18.0.1/16
   default-nameserver: [119.29.29.29, 180.184.1.1, 223.5.5.5]
   nameserver: [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
-  fake-ip-filter: [+.miwifi.com, +.docker.io, +.market.xiaomi.com, +.push.apple.com]
+  fake-ip-filter: [+.miwifi.com, +.docker.io, +.market.xiaomi.com, +.push.apple.com, 'rule-set:Private', 'rule-set:China']
 
 # 代理策略组
 proxy-groups:
   # 路由策略
   - { name: Telegram, type: select, proxies: *sg-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram_X.png }
   - { name: Socialmedia, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitter.png }
+  - { name: Cusproxy, type: select, proxies: *oversea, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png }
+  - { name: Cusdirect, type: select, proxies: *direct, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/China.png }
   - { name: Ai, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/AI.png }
   - { name: Develop, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png }
   - { name: Streaming, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Streaming.png }
@@ -141,6 +145,9 @@ rules:
   - RULE-SET,TM,Telegram
   - RULE-SET,Telegram,Telegram
   - RULE-SET,TelegramIP,Telegram,no-resolve
+  # 自定义策略
+  - RULE-SET,Cusproxy,Cusproxy
+  - RULE-SET,Cusdirect,Cusdirect
   - RULE-SET,AI,Ai
   - RULE-SET,AiIP,Ai,no-resolve
   - RULE-SET,Dev,Develop
@@ -177,6 +184,8 @@ rule-providers:
   Apple:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Apple.mrs, proxy: China }
   Proxy:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Proxy.mrs, proxy: China }
   China:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/China.mrs, proxy: China }
+  Cusproxy:   { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Cusproxy.mrs, proxy: China }
+  Cusdirect:  { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Cusdirect.mrs, proxy: China }
   PrivateIP:    { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/PrivateIP.mrs, proxy: China }
   TelegramIP:  { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/TelegramIP.mrs, proxy: China }
   SocialMediaIP:  { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/SocialMediaIP.mrs, proxy: China }
