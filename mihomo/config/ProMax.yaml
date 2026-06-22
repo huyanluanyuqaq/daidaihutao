@@ -107,7 +107,7 @@ dns:
   fake-ip-range: 198.18.0.1/16
   default-nameserver: [119.29.29.29, 180.184.1.1, 223.5.5.5]
   nameserver: [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
-  fake-ip-filter: [+.miwifi.com, +.docker.io, +.market.xiaomi.com, +.push.apple.com, 'rule-set:Private', 'rule-set:Applecn', 'rule-set:Embydirect', 'rule-set:China']
+  fake-ip-filter: [+.miwifi.com, +.docker.io, +.market.xiaomi.com, +.push.apple.com, 'rule-set:Private', 'rule-set:Applecn', 'rule-set:Embydirect', 'rule-set:China', 'rule-set:Ai-cn']
 
 # 代理策略组
 proxy-groups:
@@ -127,6 +127,7 @@ proxy-groups:
   - { name: Socialmedia, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitter.png }
   # 5. 特殊垂直领域
   - { name: Crypto, type: select, proxies: *jp-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Cryptocurrency_3.png }
+  - { name: Paypal, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/PayPal.png }
   - { name: Develop, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png }
   - { name: Speedtest, type: select, proxies: *oversea, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Speedtest.png }
   # 6. 大厂特定服务
@@ -206,6 +207,8 @@ rules:
 
   # 5. 特殊垂直领域
   - RULE-SET,Crypto,Crypto
+  - RULE-SET,Paypal,Paypal
+  - RULE-SET,Ai-cn,China
   - RULE-SET,Dev,Develop
   - RULE-SET,Speedtest,Speedtest
 
@@ -216,9 +219,12 @@ rules:
   - RULE-SET,Apple,Apple
   - RULE-SET,AppleIP,Apple,no-resolve
   - RULE-SET,Microsoft,Microsoft
+  - RULE-SET,Cloudflare,Proxy
+  - RULE-SET,Googlefcm,Google
 
   # 8. 通用国外流量
   - RULE-SET,Proxy,Proxy
+  - RULE-SET,Public-tracker,Proxy
   - RULE-SET,ProxyIP,Proxy,no-resolve
 
   # 9. 通用国内流量
@@ -263,3 +269,8 @@ rule-providers:
   AdvertisingIP:  { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/AdvertisingIP.mrs, proxy: China }
   TrackingIP:     { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/TrackingIP.mrs, proxy: China }
   YoutubeIP:      { <<: *rule-set-ipcidr, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/ipcidr/YoutubeIP.mrs, proxy: China }
+  Paypal:         { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Paypal.mrs, proxy: China }
+  Ai-cn:          { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Ai-cn.mrs, proxy: China }
+  Cloudflare:     { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Cloudflare.mrs, proxy: China }
+  Googlefcm:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Googlefcm.mrs, proxy: China }
+  Public-tracker: { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Public-tracker.mrs, proxy: China }
