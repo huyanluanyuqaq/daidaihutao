@@ -187,7 +187,7 @@ rules:
   - AND,((DST-PORT,443),(NETWORK,UDP),(NOT,((RULE-SET,ChinaIP,no-resolve)))),Tracking
 
   # 3. 高优先级特定服务
-  # 自定义策略
+  # 自定义策略与高优服务
   - RULE-SET,Ai-cn,China
   - RULE-SET,Embydirect,Embydirect
   - RULE-SET,Cusdirect,Cusdirect
@@ -222,7 +222,7 @@ rules:
   - RULE-SET,AppleIP,Apple,no-resolve
   - RULE-SET,Microsoft,Microsoft
 
-  # 9. 通用国内流量
+  # 7. 通用国内流量
   - RULE-SET,China,China
   - RULE-SET,ChinaIP,China,no-resolve
 
@@ -231,7 +231,7 @@ rules:
   - RULE-SET,Public-tracker,China
   - RULE-SET,ProxyIP,Proxy,no-resolve
 
-  # 10. 兜底规则
+  # 9. 兜底规则
   - MATCH,Final
 
 # 规则集提供者
