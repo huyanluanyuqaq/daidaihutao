@@ -202,13 +202,11 @@ rules:
   - RULE-SET,Embydirect,Embydirect
   - RULE-SET,Cusdirect,Cusdirect
   - RULE-SET,Emby,EMBY
-  - RULE-SET,Cusproxy,Cusproxy
   - RULE-SET,Ai,Ai
   - RULE-SET,AiIP,Ai,no-resolve
   - RULE-SET,Telegram,Telegram
   - RULE-SET,TelegramIP,Telegram,no-resolve
-  - RULE-SET,Cloudflare,Proxy
-
+  
   # 4. 专属流媒体与社交
   - RULE-SET,Youtube,Youtube
   - RULE-SET,YoutubeIP,Youtube,no-resolve
@@ -231,15 +229,19 @@ rules:
   - RULE-SET,Apple,Apple
   - RULE-SET,AppleIP,Apple,no-resolve
   - RULE-SET,Microsoft,Microsoft
+  - RULE-SET,Cloudflare,Proxy
+
+  # 8. 自定义
+  - RULE-SET,Public-tracker,China
+  - RULE-SET,Cusproxy,Cusproxy
+
+  # 8. 通用国外流量
+  - RULE-SET,Proxy,Proxy
+  - RULE-SET,ProxyIP,Proxy,no-resolve
 
   # 7. 通用国内流量
   - RULE-SET,China,China
   - RULE-SET,ChinaIP,China,no-resolve
-
-  # 8. 通用国外流量
-  - RULE-SET,Proxy,Proxy
-  - RULE-SET,Public-tracker,China
-  - RULE-SET,ProxyIP,Proxy,no-resolve
 
   # 9. 兜底规则
   - MATCH,Final
