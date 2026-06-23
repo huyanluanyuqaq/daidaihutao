@@ -156,7 +156,7 @@ rules:
   # 自定义策略
   - RULE-SET,Cusproxy,Cusproxy
   - RULE-SET,Cusdirect,Cusdirect
-  - RULE-SET,AI,Ai
+  - RULE-SET,Ai,Ai
   - RULE-SET,AiIP,Ai,no-resolve
   - RULE-SET,Dev,Develop
 
@@ -186,7 +186,7 @@ rule-providers:
   Private:    { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Private.mrs }
   TM:        { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/TM.mrs }
   Telegram:    { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Telegram.mrs }
-  AI:        { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/AI.mrs }
+  Ai:        { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Ai.mrs }
   Dev:        { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Dev.mrs }
   Streaming:    { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Streaming.mrs }
   SocialMedia:  { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/SocialMedia.mrs }
