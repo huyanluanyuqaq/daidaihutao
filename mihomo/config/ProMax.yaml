@@ -114,6 +114,7 @@ dns:
     - DOMAIN-SUFFIX,push.apple.com,real-ip
     - RULE-SET,Private,real-ip
     - RULE-SET,Applecn,real-ip
+    - RULE-SET,Selfdirect,real-ip
     - RULE-SET,Embydirect,real-ip
     - RULE-SET,China,real-ip
     - RULE-SET,Ai-cn,real-ip
@@ -199,6 +200,7 @@ rules:
   # 3. 高优先级特定服务
   # 自定义策略与高优服务
   - RULE-SET,Ai-cn,China
+  - RULE-SET,Selfdirect,DIRECT
   - RULE-SET,Embydirect,Embydirect
   - RULE-SET,Cusdirect,Cusdirect
   - RULE-SET,Emby,EMBY
@@ -263,6 +265,7 @@ rule-providers:
   Streaming:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Streaming.mrs }
   Proxy:          { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Proxy.mrs }
   China:          { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/China.mrs }
+  Selfdirect:     { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Selfdirect.mrs }
   Speedtest:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Speedtest.mrs }
   Crypto:         { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Crypto.mrs }
   Google:         { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Google.mrs }
