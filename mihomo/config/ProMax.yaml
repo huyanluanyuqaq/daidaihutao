@@ -141,6 +141,7 @@ proxy-groups:
   - { name: Paypal, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/PayPal.png }
   - { name: Develop, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png }
   - { name: Speedtest, type: select, proxies: *oversea, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Speedtest.png }
+  - { name: Steam, type: select, proxies: *oversea, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png }
   # 6. 大厂特定服务
   - { name: Google, type: select, proxies: *us-first, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png }
   - { name: Microsoft, type: select, proxies: *oversea, icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Microsoft.png }
@@ -203,6 +204,7 @@ rules:
   - RULE-SET,Selfdirect,DIRECT
   - RULE-SET,Embydirect,Embydirect
   - RULE-SET,Cusdirect,Cusdirect
+  - RULE-SET,Steam-cn,China
   - RULE-SET,Emby,EMBY
   - RULE-SET,Ai,Ai
   - RULE-SET,AiIP,Ai,no-resolve
@@ -222,6 +224,7 @@ rules:
   - RULE-SET,Paypal,Paypal
   - RULE-SET,Dev,Develop
   - RULE-SET,Speedtest,Speedtest
+  - RULE-SET,Steam,Steam
 
   # 6. 大厂特定服务
   - RULE-SET,Googlefcm,China
@@ -267,6 +270,8 @@ rule-providers:
   China:          { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/China.mrs }
   Selfdirect:     { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Selfdirect.mrs }
   Speedtest:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Speedtest.mrs }
+  Steam:          { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Steam.mrs }
+  Steam-cn:       { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Steam-cn.mrs }
   Crypto:         { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Crypto.mrs }
   Google:         { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Google.mrs }
   Microsoft:      { <<: *rule-set-domain, url: https://raw.githubusercontent.com/huyanluanyuqaq/hutaorules/refs/heads/rules/mihomo/domain/Microsoft.mrs }
