@@ -116,8 +116,10 @@ dns:
     - RULE-SET,Applecn,real-ip
     - RULE-SET,Selfdirect,real-ip
     - RULE-SET,Embydirect,real-ip
+    - RULE-SET,Cusdirect,real-ip
     - RULE-SET,China,real-ip
     - RULE-SET,Ai-cn,real-ip
+    - RULE-SET,Steam-cn,real-ip
     - MATCH,fake-ip
 
 # 代理策略组
