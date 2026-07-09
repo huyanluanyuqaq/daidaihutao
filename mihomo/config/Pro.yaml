@@ -13,27 +13,27 @@
 
 
 # 锚点配置
-x-base-provider: &base-provider {type: http, interval: 86400, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 300}, filter: "^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))"}
+hutao-base-provider: &base-provider {type: http, interval: 86400, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 300}, filter: "^(?!.*(群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author))"}
 
-x-url-test:   &url-test { type: url-test, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, tolerance: 50 }
-x-fallback:   &fallback { type: fallback, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT }
+hutao-url-test:   &url-test { type: url-test, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, tolerance: 50 }
+hutao-fallback:   &fallback { type: fallback, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT }
 
-x-filter-hk:  &filter-hk    "(?i)港|hk|hongkong|hong kong|九龙|kowloon|中环|central|铜锣湾|causeway.?bay|尖沙咀|tsim sha tsui|香港岛"
-x-filter-tw:  &filter-tw    "(?i)台|tw|taiwan|taipei|高雄|kaohsiung|台中|taichung|台南|tainan|桃园|taoyuan"
-x-filter-jp:  &filter-jp    "(?i)日|jp|japan|tokyo|大阪|osaka|名古屋|nagoya|札幌|sapporo|福冈|fukuoka|冲绳|okinawa"
-x-filter-sg:  &filter-sg    "(?i)新|sg|singapore|滨海湾|marina bay|樟宜|changi"
-x-filter-kr:  &filter-kr    "(?i)韩|kr|korea|seoul|釜山|busan|仁川|incheon|大邱|daegu"
-x-filter-us:  &filter-us    "(?i)美|us|usa|america|united states|纽约|new.?york|洛杉矶|los angeles|旧金山|san.?francisco|芝加哥|chicago|西雅图|seattle|达拉斯|dallas|迈阿密|miami|圣何塞|san.?jose|硅谷|silicon.?valley|凤凰城|phoenix|丹佛|denver|亚特兰大|atlanta|波特兰|portland"
+hutao-filter-hk:  &filter-hk    "(?i)^(?=.*(港|香港|hk|hkg|hongkong|hong kong|🇭🇰))(?!.*(排除|澳门|澳門)).*$"
+hutao-filter-tw:  &filter-tw    "(?i)^(?=.*(台|台湾|臺灣|tw|twn|taiwan|taipei|tpe|khh|tsa|🇹🇼))(?!.*(排除)).*$"
+hutao-filter-jp:  &filter-jp    "(?i)^(?=.*(日|日本|jp|jpn|japan|tokyo|osaka|东京|大阪|nrt|hnd|kix|cts|fuk|🇯🇵))(?!.*(排除|尼日)).*$"
+hutao-filter-sg:  &filter-sg    "(?i)^(?=.*(新加坡|狮城|獅城|sg|sgp|singapore|sin|xsp|🇸🇬))(?!.*(排除|新西兰|紐西蘭|西兰|几内亚|德里|泽西)).*$"
+hutao-filter-kr:  &filter-kr    "(?i)^(?=.*(韩|韓國|韩国|韓|kr|kor|korea|seoul|首尔|首爾|icn|gmp|pus|🇰🇷))(?!.*(排除|朝鲜|北朝鲜|北韓)).*$"
+hutao-filter-us:  &filter-us    "(?i)^(?=.*(美国|美國|usa|america|united states|lax|sfo|jfk|sjc|sea|ord|iad|dfw|🇺🇸))(?!.*(排除)).*$"
 
-x-oversea:   &oversea   [故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点, DIRECT]
-x-direct:    &direct    [DIRECT, 故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点]
-x-us-first:  &us-first  [美国节点, 故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点]
-x-hk-first:  &hk-first  [香港节点, 故障转移, 节点选择, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点]
-x-sg-first:  &sg-first  [狮城节点, 故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 韩国节点, 美国节点]
-x-jp-first:  &jp-first  [日本节点, 故障转移, 节点选择, 香港节点, 台湾节点, 狮城节点, 韩国节点, 美国节点]
+hutao-oversea:   &oversea   [故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点, DIRECT]
+hutao-direct:    &direct    [DIRECT, 故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点]
+hutao-us-first:  &us-first  [美国节点, 故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点]
+hutao-hk-first:  &hk-first  [香港节点, 故障转移, 节点选择, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点]
+hutao-sg-first:  &sg-first  [狮城节点, 故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 韩国节点, 美国节点]
+hutao-jp-first:  &jp-first  [日本节点, 故障转移, 节点选择, 香港节点, 台湾节点, 狮城节点, 韩国节点, 美国节点]
 
-x-rule-set-domain: &rule-set-domain { type: http, behavior: domain, format: mrs, interval: 86400 }
-x-rule-set-ipcidr: &rule-set-ipcidr { type: http, behavior: ipcidr, format: mrs, interval: 86400 }
+hutao-rule-set-domain: &rule-set-domain { type: http, behavior: domain, format: mrs, interval: 86400 }
+hutao-rule-set-ipcidr: &rule-set-ipcidr { type: http, behavior: ipcidr, format: mrs, interval: 86400 }
 
 proxy-providers:
   Primary: {<<: *base-provider, url: "YOUR_PRIMARY_URL", override: {additional-prefix: "[P] "}}

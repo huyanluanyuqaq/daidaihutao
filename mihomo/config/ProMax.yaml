@@ -20,12 +20,12 @@ hutao-url-test:     &url-test     { type: url-test, url: "https://www.gstatic.co
 hutao-load-balance: &load-balance { type: load-balance, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, strategy: consistent-hashing }
 hutao-fallback:     &fallback     { type: fallback, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT }
 
-hutao-filter-hk:    &filter-hk    "^(?i)(?=.*(港|hk|hongkong|hong kong|🇭🇰|hkg))(?!.*(排除)).*$"
-hutao-filter-tw:    &filter-tw    "^(?i)(?=.*(台|tw|taiwan|taipei|🇹🇼|🇼🇸|tpe|khh|tsa))(?!.*(排除)).*$"
-hutao-filter-jp:    &filter-jp    "^(?i)(?=.*(日|jp|japan|tokyo|🇯🇵|nrt|hnd|kix|cts|fuk))(?!.*(排除|尼日)).*$"
-hutao-filter-sg:    &filter-sg    "^(?i)(?=.*(新|坡|sg|singapore|🇸🇬|sin|xsp))(?!.*(排除|西兰|几内亚|德里|泽西)).*$"
-hutao-filter-kr:    &filter-kr    "^(?i)(?=.*(韩|韓|kr|korea|seoul|首尔|南朝鲜|🇰🇷|icn|gmp|pus))(?!.*(排除)).*$"
-hutao-filter-us:    &filter-us    "^(?i)(?=.*(美|us|usa|america|united states|🇺🇸|lax|sfo|jfk|sjc))(?!.*(排除)).*$"
+hutao-filter-hk:    &filter-hk    "(?i)^(?=.*(港|香港|hk|hkg|hongkong|hong kong|🇭🇰))(?!.*(排除|澳门|澳門)).*$"
+hutao-filter-tw:    &filter-tw    "(?i)^(?=.*(台|台湾|臺灣|tw|twn|taiwan|taipei|tpe|khh|tsa|🇹🇼))(?!.*(排除)).*$"
+hutao-filter-jp:    &filter-jp    "(?i)^(?=.*(日|日本|jp|jpn|japan|tokyo|osaka|东京|大阪|nrt|hnd|kix|cts|fuk|🇯🇵))(?!.*(排除|尼日)).*$"
+hutao-filter-sg:    &filter-sg    "(?i)^(?=.*(新加坡|狮城|獅城|sg|sgp|singapore|sin|xsp|🇸🇬))(?!.*(排除|新西兰|紐西蘭|西兰|几内亚|德里|泽西)).*$"
+hutao-filter-kr:    &filter-kr    "(?i)^(?=.*(韩|韓國|韩国|韓|kr|kor|korea|seoul|首尔|首爾|icn|gmp|pus|🇰🇷))(?!.*(排除|朝鲜|北朝鲜|北韓)).*$"
+hutao-filter-us:    &filter-us    "(?i)^(?=.*(美国|美國|usa|america|united states|lax|sfo|jfk|sjc|sea|ord|iad|dfw|🇺🇸))(?!.*(排除)).*$"
 
 hutao-oversea:      &oversea      [故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点, DIRECT]
 hutao-direct:       &direct       [DIRECT, 故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点]
