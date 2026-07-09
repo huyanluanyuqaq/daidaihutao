@@ -8,7 +8,7 @@
 # ||     ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝ ╚═════╝     ||
 # ||                                                    ||
 # >>====================================================<<
-# Pro v8.8.8
+# Pro v1.0.0 by HUTAO (2026-07-09)
 # 项目: https://github.com/huyanluanyuqaq/daidaihutao
 
 
@@ -20,12 +20,12 @@ hutao-url-test:     &url-test     { type: url-test, url: "https://www.gstatic.co
 hutao-load-balance: &load-balance { type: load-balance, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT, include-all: true, hidden: true, strategy: consistent-hashing }
 hutao-fallback:     &fallback     { type: fallback, url: "https://www.gstatic.com/generate_204", interval: 300, empty-fallback: REJECT }
 
-hutao-filter-hk:    &filter-hk    "(?i)港|hk|hongkong|hong kong|九龙|kowloon|中环|central|铜锣湾|causeway.?bay|尖沙咀|tsim sha tsui|香港岛"
-hutao-filter-tw:    &filter-tw    "(?i)台|tw|taiwan|taipei|高雄|kaohsiung|台中|taichung|台南|tainan|桃园|taoyuan"
-hutao-filter-jp:    &filter-jp    "(?i)日|jp|japan|tokyo|大阪|osaka|名古屋|nagoya|札幌|sapporo|福冈|fukuoka|冲绳|okinawa"
-hutao-filter-sg:    &filter-sg    "(?i)新|sg|singapore|滨海湾|marina bay|樟宜|changi"
-hutao-filter-kr:    &filter-kr    "(?i)韩|kr|korea|seoul|釜山|busan|仁川|incheon|大邱|daegu"
-hutao-filter-us:    &filter-us    "(?i)美|us|usa|america|united states|纽约|new.?york|洛杉矶|los angeles|旧金山|san.?francisco|芝加哥|chicago|西雅图|seattle|达拉斯|dallas|迈阿密|miami|圣何塞|san.?jose|硅谷|silicon.?valley|凤凰城|phoenix|丹佛|denver|亚特兰大|atlanta|波特兰|portland"
+hutao-filter-hk:    &filter-hk    "^(?i)(?=.*(港|hk|hongkong|hong kong|🇭🇰|hkg))(?!.*(排除)).*$"
+hutao-filter-tw:    &filter-tw    "^(?i)(?=.*(台|tw|taiwan|taipei|🇹🇼|🇼🇸|tpe|khh|tsa))(?!.*(排除)).*$"
+hutao-filter-jp:    &filter-jp    "^(?i)(?=.*(日|jp|japan|tokyo|🇯🇵|nrt|hnd|kix|cts|fuk))(?!.*(排除|尼日)).*$"
+hutao-filter-sg:    &filter-sg    "^(?i)(?=.*(新|坡|sg|singapore|🇸🇬|sin|xsp))(?!.*(排除|西兰|几内亚|德里|泽西)).*$"
+hutao-filter-kr:    &filter-kr    "^(?i)(?=.*(韩|韓|kr|korea|seoul|首尔|南朝鲜|🇰🇷|icn|gmp|pus))(?!.*(排除)).*$"
+hutao-filter-us:    &filter-us    "^(?i)(?=.*(美|us|usa|america|united states|🇺🇸|lax|sfo|jfk|sjc))(?!.*(排除)).*$"
 
 hutao-oversea:      &oversea      [故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点, DIRECT]
 hutao-direct:       &direct       [DIRECT, 故障转移, 节点选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 韩国节点, 美国节点]
@@ -64,7 +64,7 @@ unified-delay: true
 tcp-concurrent: true
 log-level: info
 bind-address: '*'
-find-process-mode: 'always'
+find-process-mode: off
 keep-alive-interval: 15
 keep-alive-idle: 600
 authentication: [mihomo:hutao]
@@ -96,6 +96,7 @@ tun:
   auto-route: true
   auto-redirect: false
   auto-detect-interface: true
+  endpoint-independent-nat: true
 
 # DNS设置
 dns:

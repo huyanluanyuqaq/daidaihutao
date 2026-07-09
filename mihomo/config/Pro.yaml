@@ -8,7 +8,7 @@
 # ||     ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝ ╚═════╝     ||
 # ||                                                    ||
 # >>====================================================<<
-# Lite v8.8.8
+# Pro v1.0.0 by HUTAO (2026-07-09)
 # 项目: https://github.com/huyanluanyuqaq/daidaihutao
 
 
@@ -61,7 +61,7 @@ unified-delay: true
 tcp-concurrent: true
 log-level: info
 bind-address: "*"
-find-process-mode: "always"
+find-process-mode: off
 keep-alive-interval: 15
 keep-alive-idle: 600
 authentication: [mihomo:hutao]
@@ -93,6 +93,7 @@ tun:
   auto-route: true
   auto-redirect: false
   auto-detect-interface: true
+  endpoint-independent-nat: true
 
 # DNS设置
 dns:
